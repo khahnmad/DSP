@@ -1,9 +1,9 @@
 # Imports
-import All_Functions as af
+from DSP import All_Functions as af
 import re
 import random
 
-victims_db = af.import_csv('victim-db.csv')  # import victims database
+victims_db = af.import_csv('generate-sample/victim-db.csv')  # import victims database
 
 # identify victims that are female and since 2005
 relevant_shootings = []
@@ -14,10 +14,10 @@ for i in range(len(victims_db)):
                 relevant_shootings.append(victims_db[i])
 
 # Export list
-sampled_shootings = af.export_nested_list('relevant-shootings.csv', relevant_shootings)
+sampled_shootings = af.export_nested_list('generate-sample/relevant-shootings.csv', relevant_shootings)
 
 # Import newly created list
-relevant_events = af.import_csv('relevant-shootings.csv')
+relevant_events = af.import_csv('generate-sample/relevant-shootings.csv')
 
 # How many unique shootings are in this sample?
 unique_events =[]
@@ -34,4 +34,4 @@ for i in range(len(relevant_events)):
     if perp_name not in perp_names:
         perp_names.append(relevant_events[i][2] + ' ' + relevant_events[i][1])
 sample = random.sample(perp_names, int(len(perp_names)*.25)) # take a sample of 25% fo the shootings
-af.export_list('initial-sample.csv', sample)
+af.export_list('generate-sample/initial-sample.csv', sample)
