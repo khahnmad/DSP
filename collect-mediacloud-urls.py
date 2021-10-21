@@ -7,7 +7,7 @@ import time
 import mediacloud.tags
 import csv
 from dateutil.relativedelta import *
-import All_Functions as af
+from DSP import All_Functions as af
 
 # Media Cloud functions
 def all_matching_stories(mc_client, q, fq):
@@ -113,6 +113,7 @@ print('Connection check:', b - a)
 
 print('-MEDIACLOUD SETUP COMPLETE-')
 
+# PART 2: Collect URLS
 shooting_data = af.import_csv('intial-sample-w-info.csv')
 
 for i in range(1,len(shooting_data)):

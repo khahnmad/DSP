@@ -1,7 +1,7 @@
 # Imports
 from bs4 import BeautifulSoup as bs
 import requests
-import All_Functions as af
+from DSP import All_Functions as af
 import glob
 import requests.exceptions
 import re
@@ -77,7 +77,7 @@ def extract_article_content(csv_file, event_name):
 # RUN THE FUNCTIONS
 all_files = [x for x in glob.glob('mediacloud-urls' + "/*.csv")]  # Get all files in the given folder
 
-for file in all_files[10:]: # start at 10 for Red_lake
+for file in all_files[11:]: # start at 10 for Red_lake
     regex = r"[A-Z].*(?=.c)"
     match = re.findall(regex, file)
     print(f'WORKING ON {match[0]}...')
