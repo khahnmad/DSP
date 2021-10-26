@@ -4,6 +4,7 @@ import re
 import sys
 import ast
 from csv import writer
+import collections
 
 # Imports & Setup
 def import_csv(csv_file):  # parses data into a nested list
@@ -18,7 +19,7 @@ def import_csv(csv_file):  # parses data into a nested list
     # print(csv_file)
     if len(nested_list)>=2:
         if len(nested_list[1]) >= 10:
-            if len(nested_list[1])==12 and type(nested_list[1][10])==str: # double check that this index/ syntax works
+            if len(nested_list[1])>=12 and type(nested_list[1][10])==str: # double check that this index/ syntax works
                 for i in range(1,len(nested_list)):
                     type_fix = ast.literal_eval(nested_list[i][10])
                     nested_list[i][10] = type_fix
@@ -109,4 +110,36 @@ def remove_capitalization(cap_list):
 def get_event_name(file):
     regex = r"[A-Z].*(?=_)"  # regex for getting the location name of each event
     match = re.findall(regex, file)
+    if len(match) == 0:
+        alternative = r"[A-Z].*(?=\.)"
+        match = re.findall(alternative, file)
     return match[0]
+
+# tf-idf
+def create_vocab(content): # for unclean content. could make an option for clean content
+    all_text, vocab = [],[]
+    for i in range(1,len(content)):
+        for word in content[i][10]:
+            all_text.append(word)
+    for word in all_text:
+        if word not in vocab:
+            vocab.append(word)
+    return vocab
+
+
+def identify_high_scores(tf_idf_file, cleaned_text_file):
+    tfidf = import_csv(tf_idf_file)
+    text = import_csv(cleaned_text_file)
+    vocab = create_vocab(text)
+    high_scores = []
+    for i in range(len(tfidf)):
+        for j in range(len(tfidf[i])):
+            if float(tfidf[i][j]) > 5.5 and vocab[j] not in high_scores:
+                high_scores.append(vocab[j])
+    if len(high_scores) <=15:
+        for i in range(len(tfidf)):
+            for j in range(len(tfidf[i])):
+                if float(tfidf[i][j]) > 4 and vocab[j] not in high_scores:
+                    high_scores.append(vocab[j])
+    return high_scores
+

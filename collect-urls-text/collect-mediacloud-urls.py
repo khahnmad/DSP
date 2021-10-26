@@ -7,7 +7,7 @@ import time
 import mediacloud.tags
 import csv
 from dateutil.relativedelta import *
-from DSP import All_Functions as af
+import All_Functions as af
 
 # Media Cloud functions
 def all_matching_stories(mc_client, q, fq):
@@ -114,17 +114,18 @@ print('Connection check:', b - a)
 print('-MEDIACLOUD SETUP COMPLETE-')
 
 # PART 2: Collect URLS
-shooting_data = af.import_csv('intial-sample-w-info.csv')
+# shooting_data = af.import_csv('generate-sample\intial-sample-w-info.csv')
+#
+# for i in range(1,len(shooting_data)):
+#     print(f'COLLECTING URLS FOR EVENT NO. {i}...')
+#     year = int(shooting_data[i][0])
+#     month = int(shooting_data[i][1])
+#     day = int(shooting_data[i][2])
+#     split = shooting_data[i][3].split()
+#     if len(split)>1:
+#         location = split[0] + '_' + split[1]
+#     else:
+#         location = shooting_data[i][3]
+#     collection_pipeline(year, month, day, location)
 
-for i in range(1,len(shooting_data)):
-    print(f'COLLECTING URLS FOR EVENT NO. {i}...')
-    year = int(shooting_data[i][0])
-    month = int(shooting_data[i][1])
-    day = int(shooting_data[i][2])
-    split = shooting_data[i][3].split()
-    if len(split)>1:
-        location = split[0] + '_' + split[1]
-    else:
-        location = shooting_data[i][3]
-    collection_pipeline(year, month, day, location)
-
+collection_pipeline(2012, 7, 20, 'Aurora')

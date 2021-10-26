@@ -1,10 +1,11 @@
 import All_Functions as af
-from bs4 import BeautifulSoup as bs
-import requests
+import time
 
+fake_list = [0,1,2,2,3,4,5,2,4,7]
 
-a_list = [0,1,2,3,4,0]
-leng = [20 for x in a_list]
-
-result = map(lambda x, y: x/y, a_list, leng)
-print(list(result))
+try:
+    test = af.import_csv('does_not_exist.csv')
+except FileNotFoundError:
+    af.export_list('does_not_exist.csv', fake_list)
+    time.sleep(10)
+    test = af.import_csv('does_not_exist.csv')

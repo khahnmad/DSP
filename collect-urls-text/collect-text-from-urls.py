@@ -1,11 +1,13 @@
+# TODO: Check out what's going on with the NPR articles - i dont think im getting any content from them
+
 # Imports
 from bs4 import BeautifulSoup as bs
 import requests
-from DSP import All_Functions as af
 import glob
 import requests.exceptions
 import re
-
+import All_Functions as af
+import os
 
 # FUNCTIONS
 def access_article(url): # Acesses a single url and returns all the url's p tags
@@ -42,11 +44,11 @@ def get_text(urls_list, event_name, starting_url=0): # given a list of urls, ret
 
         if str(i).endswith('000'): # Exports the gathered information before running through all urls
             # Export urls & text that has been gathered so far
-            csv_file_name = 'article-text\\' + event_name + '_text_' + str(i) + '.csv'
+            csv_file_name = 'article-text\\' + event_name + '_text-' + str(i) + '.csv'
             af.export_nested_list(csv_file_name, midpoint_urls)
 
             # Export list of a bad urls
-            bad_urls_csv_name = 'bad-urls\\' + event_name + '_bad-urls_'+ str(i)+'.csv'
+            bad_urls_csv_name = 'bad-urls\\' + event_name + '_bad-urls-'+ str(i)+'.csv'
             af.export_nested_list(bad_urls_csv_name, bad_urls)
 
     return url_text, bad_urls
@@ -75,9 +77,10 @@ def extract_article_content(csv_file, event_name):
 
 
 # RUN THE FUNCTIONS
+os.chdir('C:\\Users\\khahn\\Documents\\DSP\\DSP')
 all_files = [x for x in glob.glob('mediacloud-urls' + "/*.csv")]  # Get all files in the given folder
-
-for file in all_files[11:]: # start at 10 for Red_lake
+print('check')
+for file in all_files[10:]: # start at 10 for Red_lake
     regex = r"[A-Z].*(?=.c)"
     match = re.findall(regex, file)
     print(f'WORKING ON {match[0]}...')

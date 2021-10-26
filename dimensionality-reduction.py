@@ -26,17 +26,21 @@ def reduce_dimensionality(file, components):
 
 # k-means
 
-aurora_rd = reduce_dimensionality('tf-idf-scores/Aurora_tf-idf.csv',5)
+
+aurora_rd = reduce_dimensionality('tf-idf-scores/Aurora-2_tf-idf.csv', 5)
 kmeans = KMeans(n_clusters=2, random_state=0).fit(aurora_rd)
 # kmeans.labels_
-aurora_cleaned = af.import_csv('article-text/Aurora_cleaned-text.csv')
+aurora_cleaned = af.import_csv('Aurora_round_2.csv')
+
+
 
 headlines = [x[2] for x in aurora_cleaned[1:]]
+dict_class = [x[-2] for x in aurora_cleaned[1:]]
 labels = list(kmeans.labels_)
 data = []
 for i in range(len(headlines)):
-    data.append([headlines[i],labels[i]])
+    data.append([headlines[i],dict_class[i], labels[i]])
 
-df = pd.DataFrame(columns=['headlines','cluster label'], data=data)
+df = pd.DataFrame(columns=['headlines','dict label','cluster label'], data=data)
 # df = pd.DataFrame(data=data)
 print('checkpoint')

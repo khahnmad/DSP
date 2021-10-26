@@ -1,1 +1,19 @@
-year,month,day,location ,shooter 2015,12,2,San Bernardino ,2012,4,20,Aurora,James Holmes2009,11,5,Killeen,Nidal Hasan 2017,11,5,Sutherland Springs,Devin Patrick Kelley2011,1,8,Tucson ,Jared Loughner2021,4,15,Indianapolis,Brandon Scott Hole 2005,3,21,Red Lake,Jeffrey Weise2021,3,22,Boulder,Ahmad Al Alissa2018,10,27,Pittsburgh,Robert Bowers2017,1,6,Broward County,Esteban Santiago 2011,9,10,Breathitt County,Stanley Neace2006,1,30,Goleta,Jennifer San Marco 2007,12,5,Omaha,Robert Hawkins2018,11,7,Thousand Oaks,Ian David Long 2011,10,12,Seal Beach,Scottt Dekraai 2010,6,6,Hialeah,Gerardo Regalado 2015,10,1,Roseburg,Chris Harper-Mercer2013,6,7,Santa Monica,John Zawahri 
+year,month,day,location ,shooter 
+2015,12,2,San Bernardino ,
+2012,7,20,Aurora,James Holmes
+2009,11,5,Killeen,Nidal Hasan 
+2017,11,5,Sutherland Springs,Devin Patrick Kelley
+2011,1,8,Tucson ,Jared Loughner
+2021,4,15,Indianapolis,Brandon Scott Hole 
+2005,3,21,Red Lake,Jeffrey Weise
+2021,3,22,Boulder,Ahmad Al Alissa
+2018,10,27,Pittsburgh,Robert Bowers
+2017,1,6,Broward County,Esteban Santiago 
+2011,9,10,Breathitt County,Stanley Neace
+2006,1,30,Goleta,Jennifer San Marco 
+2007,12,5,Omaha,Robert Hawkins
+2018,11,7,Thousand Oaks,Ian David Long 
+2011,10,12,Seal Beach,Scottt Dekraai 
+2010,6,6,Hialeah,Gerardo Regalado 
+2015,10,1,Roseburg,Chris Harper-Mercer
+2013,6,7,Santa Monica,John Zawahri 

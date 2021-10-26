@@ -11,6 +11,7 @@ import nltk
 from nltk.corpus import stopwords
 import string
 import pandas as pd
+import os
 
 
 
@@ -60,9 +61,9 @@ def clean_all_csv_files(all_files):
             if len(cleaned_content)>1:
                 print('   has content')
             csv_file_name = 'article-text\\' + match[0] + '_cleaned-text.csv'
-            df = pd.DataFrame(data=cleaned_content[1:], columns=cleaned_content[0])
-            if af.get_event_name(file)=='Pittsburgh':
-                print(df)
+            # df = pd.DataFrame(data=cleaned_content[1:], columns=cleaned_content[0])
+            # if af.get_event_name(file)=='Pittsburgh':
+            #     print(df)
             # df.to_csv(csv_file_name, index=False)
             af.export_nested_list(csv_file_name, cleaned_content)
 
@@ -117,6 +118,7 @@ def look_for_bad_urls(all_files):
 
 
 # Import files
+os.chdir('C:\\Users\\khahn\\Documents\\DSP\\DSP')
 all_files = [x for x in glob.glob('article-text' + "/*.csv") if 'cleaned' not in x and '0' not in x]  # Get all files in the given folder
 # RUN the function
 clean_all_csv_files(all_files)
