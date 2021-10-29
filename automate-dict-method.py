@@ -10,9 +10,10 @@ import pandas as pd
 import collections
 import ast
 
+
 # Functions
 def run_evaluate(location, round_no):
-    time.sleep(5)  # TODO: Need to make this long enough that the new file is created
+    time.sleep(5)
     new_file = 'dict-development\\' + location + '_round-' + str(round_no) + '.csv'
     try:
         test = af.import_csv(new_file)
@@ -57,20 +58,7 @@ def tf_idf_identification(tf_idf, file, location, round_no):
 
     # Evaluate the dictionary
     run_evaluate(location, round_no)
-    # time.sleep(5) #
-    # new_file = 'dict-development\\' + location + '_round-' + str(round_no) + '.csv'
-    # try:
-    #     test = af.import_csv(new_file)
-    #     print('Sucessful after a 5 second wait ')
-    # except FileNotFoundError:
-    #     print('Trying the while loop')
-    #     all_dict_files = [x for x in glob.glob('dict-development' + "/*.csv")]
-    #     while new_file not in all_dict_files:
-    #         print('Waiting')
-    #         time.sleep(5)
-    #         all_dict_files = [x for x in glob.glob('dict-development' + "/*.csv")]
-    #     else:
-    #         dm.eval_dict_method(new_file, round_no)
+
 
 def run_round2(rd1_file, location):
     # Generate tf-idf only for those now classified as "about" the event
@@ -86,6 +74,7 @@ def run_round2(rd1_file, location):
     tg.generate_tfidf(relevant, location,2)
     tf_idf_file = 'tf-idf-scores//' + location + '_2-tf-idf.csv'
     tf_idf_identification(tf_idf_file, rd1_file, location,2)
+
 
 def run_round3(rd2_file, location):
     shooter_name = all_dicts[location]['words'][0]
@@ -117,9 +106,9 @@ def run_round3(rd2_file, location):
     time.sleep(5)
     dm.eval_dict_method(rd2_file, 3)
 
+
 def calc_pr(man_list, new_classif):
     positives, negatives, fps, fns, tps, tns = 0, 0, 0, 0, 0, 0
-    evaluation = [['positives', 'negatives', 'fps', 'fns', 'tps', 'tns', 'precision', 'recall']]
     for i in range(len(new_classif)):
         if new_classif[i] == '1' and man_list[i] == '0':  # false positives
             fps += 1
@@ -132,7 +121,6 @@ def calc_pr(man_list, new_classif):
     precision = tps / (tps + fps)
     recall = tps / (tps + fns)
     return [precision, recall]
-
 
 
 def finetune(location):
@@ -160,7 +148,6 @@ def finetune(location):
         pr.append([number, p_r[0],p_r[1]])
     df = pd.DataFrame(data=pr, columns=['number', 'precision','recall'])
     df['sum'] = df['precision']+ df['recall']
-    column = df['sum']
     max_index = df['sum'].idxmax()
     best_threshold = df['number'][max_index]
 
@@ -214,6 +201,9 @@ def finetune(location):
 
     run_evaluate(location, 4)
 
+    dict_file_name = location + '_final-dictionary.csv'
+    af.export_dictionary(dict_file_name, all_dicts[location])
+
 # Variables
 
 # Action
@@ -226,15 +216,21 @@ for key in keys:
 
 
 ### initialize location & shooter name
-sample_info = af.import_csv('generate-sample/intial-sample-w-info.csv')
-for key in keys:
-    for i in range(1,len(sample_info)):
-        if len(sample_info[i][3].split()) >1:
+sample_info = af.import_csv('generate-sample/intial-sample-w-info.csv') # this has the shooter name and location
+for key in keys: # for each location
+    for i in range(1,len(sample_info)): # for each row in the sample info
+        """ this converts the format of the location name in the sample info file to the location that I'm using 
+            for file names """
+        if len(sample_info[i][3].split()) >1: # if there are two words to the location, convert the format accordingly
             location_converted = sample_info[i][3].split()[0]+'_'+sample_info[i][3].split()[1]
         else:
             location_converted = sample_info[i][3]
+        """ Now I initialize the dictionaries with the location name and the shooter name, since these are two 
+        vital words for the dictionary method. This takes only the last name of the shooter which can be problematic 
+        for non-American-style names and for multiple shooters. I'm overlooking this problem bc this is just
+        initialization and the dictionary will be improved upon later"""
         if location_converted == key:
-            if len(sample_info[i][3].split()) >1:
+            if len(sample_info[i][3].split()) >1: # if there are two words to the location, handle accordingly
                 cleaned_location = [x.lower() for x in sample_info[i][3].split()]
                 cleaned_name = sample_info[i][4].split()[-1].lower()
                 all_dicts[key]['words'].append(cleaned_name)
@@ -243,7 +239,6 @@ for key in keys:
                 all_dicts[key]['scores'].append(1.25)
                 all_dicts[key]['scores'].append(.75)
                 all_dicts[key]['scores'].append(.75)
-
             else:
                 cleaned_location = sample_info[i][3].lower()
                 cleaned_name = sample_info[i][4].split()[-1].lower()
@@ -252,21 +247,18 @@ for key in keys:
                 all_dicts[key]['scores'].append(1.25)
                 all_dicts[key]['scores'].append(1.25)
 
+# Create the Dictionary
+tf_idf_files = [x for x in glob.glob('tf-idf-scores/round-1' + "/*.csv")] # gather all the tf-idf files
+for file in all_files:
+    location = af.get_event_name(file)
+    for tf_idf in tf_idf_files:
+        if location in tf_idf:
+            tf_idf_identification(tf_idf, file, location,1)
 
-# two rounds of tf-idf and 1 round of word2vec
-tf_idf_files = [x for x in glob.glob('tf-idf-scores/round-1' + "/*.csv")]
-# for file in all_files:
-#     location = af.get_event_name(file)
-#     for tf_idf in tf_idf_files:
-#         if location in tf_idf:
-#             tf_idf_identification(tf_idf, file, location,1)
-#
-#             rd1_file = 'dict-development/'+location+'_round-1.csv'
-#             run_round2(rd1_file, location)
-#
-#             rd2_file = 'dict-development/' + location + '_round-2.csv'
-#             run_round3(rd2_file, location)
-#
+            rd1_file = 'dict-development/'+location+'_round-1.csv'
+            run_round2(rd1_file, location)
 
-print('CHECKPOINT')
-finetune('Aurora')
+            rd2_file = 'dict-development/' + location + '_round-2.csv'
+            run_round3(rd2_file, location)
+
+            finetune(location)

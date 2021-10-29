@@ -129,6 +129,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\tfidfGenerator.py">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\word2vec-dict-method.py">
           <value>
             <Attribute>

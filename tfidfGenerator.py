@@ -90,16 +90,29 @@ def identify_high_scores(tf_idf_file, cleaned_text_file):
                 high_scores.append(vocab[j])
     return high_scores
 
+def generate_first_tfidf(file, round_number=0):
+    # Generate tf-idf
+    content = af.import_csv(file)
+    vocab = create_vocab(content)
+    tf_matrix = create_tf_matrix(vocab, content[1:])
+    idf_matrix = calculate_idf(vocab, content[1:])
+    tf_idf_matrix = calculate_tfidf(tf_matrix, idf_matrix)
+    location = af.get_event_name(file)
+    if round_number != 0:
+        csv_name = 'tf-idf-scores//' + location + '_'+str(round_number)+'-tf-idf.csv'
+    else:
+        csv_name = 'tf-idf-scores//round-1//' + location + '_tf-idf.csv'
+    af.export_nested_list(csv_name, tf_idf_matrix)
 
 # Setup
 af.fix_field_errors()
 
 # ROUND 1
-# Genderate tf-idf
-# all_files = [x for x in glob.glob('article-text' + "/*.csv") if 'cleaned' in x and '0' not in x]  # Get all files in the given folder
-# for file in all_files:
-#     print(f"Working on {af.get_event_name(file)}...")
-#     generate_tfidf(file)
+# Gendrate tf-idf
+all_files = [x for x in glob.glob('article-text' + "/*.csv") if 'cleaned' in x and '0' not in x]  # Get all files in the given folder
+for file in all_files:
+    print(f"Working on {af.get_event_name(file)}...")
+    generate_first_tfidf(file)
 
 # Inspect tf-idf
 # all_files = [x for x in glob.glob('tf-idf-scores\\round-1' + "/*.csv")]  # Get all files in the given folder
@@ -107,53 +120,3 @@ af.fix_field_errors()
 # for file in all_files:
 #     all_high_scores.append(identify_high_scores(file))
 # print('checkpoint')
-
-# ROUND 2:
-# Generate tf-idf only for those now classified as "about" the event
-# file = 'Aurora_round_1.csv'
-# content = af.import_csv(file)
-# relevant = []
-# for i in range(len(content)):
-#     if content[i][-2] == '1' and content[i][-1] == '1':  # true positives
-#         relevant.append(content[i])
-#     if content[i][-2] == '1' and content[i][-1] == 'None':  # dict positives
-#         relevant.append(content[i])
-#     if content[i][-2] == '0' and content[i][-1] == '1':  # false negatives
-#         relevant.append(content[i])
-# # generate_tfidf(relevant, 1)
-#
-# high_scores = identify_high_scores('tf-idf-scores/Aurora-1_tf-idf.csv','Aurora_round_1.csv')
-
-# Round 3:
-# Generate tf-idf only for those now classified as "about" the event
-# file = 'Aurora_round_2.csv'
-# content = af.import_csv(file)
-# relevant = []
-# for i in range(len(content)):
-#     if content[i][-2] == '1' and content[i][-1] == '1':  # true positives
-#         relevant.append(content[i])
-#     if content[i][-2] == '1' and content[i][-1] == 'None':  # dict positives
-#         relevant.append(content[i])
-#     if content[i][-2] == '0' and content[i][-1] == '1':  # false negatives
-#         relevant.append(content[i])
-# # add manually classified from last round(s)
-# earlier_file = 'Aurora_round_1.csv'
-# earlier = af.import_csv(earlier_file)
-# old = []
-# for i in range(len(earlier)):
-#     if earlier[i][-2] == '1' and earlier[i][-1] == '1':  # true positives
-#         old.append(earlier[i])
-#     if earlier[i][-2] == '1' and earlier[i][-1] == 'None':  # dict positives
-#         old.append(earlier[i])
-#     if earlier[i][-2] == '0' and earlier[i][-1] == '1':  # false negatives
-#         old.append(earlier[i])
-# print('c')
-# old_ids = [old[x][0] for x in range(len(old))]
-# new_ids = [relevant[x][0] for x in range(len(relevant))]
-# for i in range(len(old_ids)):
-#     if old_ids[i] not in new_ids:
-#         relevant.append(old[i])
-# generate_tfidf(relevant, 1)
-
-# high_scores = identify_high_scores('tf-idf-scores/Aurora-2_tf-idf.csv','Aurora_round_2.csv')
-# print('c')

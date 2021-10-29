@@ -38,6 +38,12 @@ def export_list(csv_name, list_):
         writer = csv.writer(f)
         writer.writerow(list_)
 
+def export_dictionary(csv_name, dictionary):
+    with open(csv_name, 'w', newline='', encoding="utf-8") as f:
+        writer = csv.writer(f)
+        for key, value in dictionary.items():
+            writer.writerow([key, value])
+
 def fix_field_errors():
     maxInt = sys.maxsize
     while True:

@@ -1,6 +1,6 @@
 """
 TO DO:
-- double check that the misssing text here matches the number of missing bad urls
+- double check that the missing text here matches the number of missing bad urls
 - is there an issue with Breahitt and Broward counties getting mixed up with the regex?
 """
 # Imports
@@ -36,10 +36,7 @@ def clean_all_csv_files(all_files):
             for row in content[1:]: # only look at the content rows, not the column names
                 if len(row) == 11:
                     row.append(match[0])  # append the location name to each row
-                    # tokenize
-                    # remove punctuation?
-                    # remove stopwords
-                    # make everything lowercase
+
                     tokenized = nltk.word_tokenize(row[10])  # tokenize # is this the right format?
 
                     lowercase = af.remove_capitalization(tokenized)  # remove capitalization
@@ -61,10 +58,7 @@ def clean_all_csv_files(all_files):
             if len(cleaned_content)>1:
                 print('   has content')
             csv_file_name = 'article-text\\' + match[0] + '_cleaned-text.csv'
-            # df = pd.DataFrame(data=cleaned_content[1:], columns=cleaned_content[0])
-            # if af.get_event_name(file)=='Pittsburgh':
-            #     print(df)
-            # df.to_csv(csv_file_name, index=False)
+
             af.export_nested_list(csv_file_name, cleaned_content)
 
 def look_for_bad_urls(all_files):
@@ -76,22 +70,36 @@ def look_for_bad_urls(all_files):
         for row in content[1:]: # don't look at the heading row
             # should the "50" threshold be higher?
             if len(row[10]) >= 50: # if there are more than 50 words, it's probably a real articles
-                relevant_content.append(row)
+                if 'npr' in row[3]:
+                    bad_urls.append(['Resistant to Bots Error', row[3]])
+                else:
+                    relevant_content.append(row)
             elif len(row[10]) <= 1:
                 bad_urls.append(['Unscrapable content error',row[3]])
             elif len(row[10]) < 50 and len(row[10]) > 1: # check that this is the right index
                 # Does it contain some of these keywords that suggest it wasn't scraped?
-                error_words = ['sorry page','404','browser supports javascript','address entered correct',
-                               'return previous page','gdpr','server error','subscriber subscribe today',
-                               'please enable cookies','access page denied','url found server','inc. rights reserved',
-                               'old link typed','please update browser','use cookies', '451','timeout details',
+                error_words = ['sorry page','browser supports javascript','address entered correct',
+                               'return previous page','subscriber subscribe today',
+                               'access page denied','url found server','inc. rights reserved',
+                               'old link typed','please update browser','use cookies', 'timeout details',
                                'terms service privacy policy','cache server','subscribe monthly 1']
+
                 count = 0
                 joined = " ".join(row[10])
+                if '404' in joined:
+                    bad_urls.append(['404 Not found', row[3]])
+                if '451' in joined:
+                    bad_urls.append(['Legal Reasons (GDPR) Error', row[3]])
+                if 'please enable cookies' in joined:
+                    bad_urls.append(['Resistant to Bots Error', row[3]])
+                if 'server error' in joined:
+                    bad_urls.append(['Server Error', row[3]])
                 for phrase in error_words:
                     if phrase in joined:
-                        bad_urls.append(['Unscrapable content', row[3]])
-                        count = 1
+                        existing_bad = [x[1] for x in bad_urls]
+                        if row[3] not in existing_bad:
+                            bad_urls.append(['Unscrapable content - Unknown reason', row[3]])
+                            count = 1
                 # if count == 0:
                     # Otherwise do mannually check
                     # print('Relevant content? y or n')
