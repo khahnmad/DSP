@@ -4,7 +4,8 @@ import re
 import sys
 import ast
 from csv import writer
-import collections
+import json
+from collections import Counter
 
 # Imports & Setup
 def import_csv(csv_file):  # parses data into a nested list
@@ -21,10 +22,33 @@ def import_csv(csv_file):  # parses data into a nested list
         if len(nested_list[1]) >= 10:
             if len(nested_list[1])>=12 and type(nested_list[1][10])==str: # double check that this index/ syntax works
                 for i in range(1,len(nested_list)):
-                    type_fix = ast.literal_eval(nested_list[i][10])
-                    nested_list[i][10] = type_fix
+                    if len(nested_list[i][10]) > 0:
+                        try:
+                            type_fix = ast.literal_eval(nested_list[i][10])
+                            nested_list[i][10] = type_fix
+                        except ValueError:
+                            print(f'Value Error at row {i}')
         return nested_list  # return nested list
 
+def import_csv_as_dict(csv_file):
+    with open(csv_file, mode='r') as infile:
+        reader = csv.reader(infile)
+        with open('coors_new.csv', mode='w') as outfile:
+            writer = csv.writer(outfile)
+            dict_ = {rows[0]: rows[1] for rows in reader}
+            print("check")
+
+            keys = dict_.keys()
+            for key in keys:
+                type_fix = ast.literal_eval(dict_[key])
+                dict_[key] = type_fix
+            print("check")
+    return dict_
+
+def import_json(json_file_path):
+    with open(json_file_path, 'r') as j:
+         file = json.loads(j.read())
+    return file
 
 # Exports and shutting down
 def export_nested_list(csv_name, nested_list):
@@ -121,6 +145,9 @@ def get_event_name(file):
         match = re.findall(alternative, file)
     return match[0]
 
+def translate_name(location_name):
+    return location_name.replace("_"," ")
+
 # tf-idf
 def create_vocab(content): # for unclean content. could make an option for clean content
     all_text, vocab = [],[]
@@ -138,14 +165,25 @@ def identify_high_scores(tf_idf_file, cleaned_text_file):
     text = import_csv(cleaned_text_file)
     vocab = create_vocab(text)
     high_scores = []
-    for i in range(len(tfidf)):
-        for j in range(len(tfidf[i])):
-            if float(tfidf[i][j]) > 5.5 and vocab[j] not in high_scores:
-                high_scores.append(vocab[j])
-    if len(high_scores) <=15:
+    if tfidf != None:
         for i in range(len(tfidf)):
             for j in range(len(tfidf[i])):
-                if float(tfidf[i][j]) > 4 and vocab[j] not in high_scores:
+                if float(tfidf[i][j]) > 5.5 and vocab[j] not in high_scores:
                     high_scores.append(vocab[j])
+        if len(high_scores) <=15:
+            for i in range(len(tfidf)):
+                for j in range(len(tfidf[i])):
+                    if float(tfidf[i][j]) > 4 and vocab[j] not in high_scores:
+                        high_scores.append(vocab[j])
+        if len(high_scores) <=15:
+            for i in range(len(tfidf)):
+                for j in range(len(tfidf[i])):
+                    if float(tfidf[i][j]) > 3 and vocab[j] not in high_scores:
+                        high_scores.append(vocab[j])
     return high_scores
 
+def print_most_common(text):
+    counter = Counter(text)
+    most = counter.most_common()
+    print(most[:20])
+    return most[:40]

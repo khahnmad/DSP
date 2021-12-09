@@ -33,10 +33,14 @@ def apply_dict_method(round_no:int, cleaned_text, dictionary, threshold=3):
             content[i].append(0) # 0 for no
 
     # take sample and classify manually
-    sample = random.sample(range(len(content)), int(len(content)*0.1))
+    if len(content) < 20:
+        sample = random.sample(range(len(content)), int(len(content)))
+    else:
+        sample = random.sample(range(len(content)), 20)
+
     print(f'Manually check {len(sample)} articles...')
     content[0].append('Manual Class')
-    for i in range(len(content)):
+    for i in range(1,len(content)):
         if i in sample:
             print(content[i][3])
             print(content[i][2])
@@ -58,6 +62,7 @@ def apply_dict_method(round_no:int, cleaned_text, dictionary, threshold=3):
     af.export_nested_list(csv_name,content)
 
 
+
 def eval_dict_method(file,round_no):
     positives, negatives, fps, fns, tps,tns = 0,0,0,0,0,0
     evaluation = [['positives','negatives','fps','fns','tps','tns', 'precision','recall']]
@@ -75,8 +80,14 @@ def eval_dict_method(file,round_no):
             tps +=1
         if content[i][-2] == '0' and content[i][-1] == '0': # true negatives
             tns +=1
-    precision = tps/(tps+fps)
-    recall = tps/(tps+fns)
+    if (tps+fps) != 0:
+        precision = tps/(tps+fps)
+    else:
+        precision = 0
+    if (tps+fns) != 0:
+        recall = tps/(tps+fns)
+    else:
+        recall = 0
     print(f"    Precision: {precision}")
     print(f"    Recall: {recall}")
     evaluation.append([positives, negatives, fps, fns, tps,tns, precision, recall])

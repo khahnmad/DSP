@@ -114,18 +114,19 @@ print('Connection check:', b - a)
 print('-MEDIACLOUD SETUP COMPLETE-')
 
 # PART 2: Collect URLS
-# shooting_data = af.import_csv('generate-sample\intial-sample-w-info.csv')
-#
-# for i in range(1,len(shooting_data)):
-#     print(f'COLLECTING URLS FOR EVENT NO. {i}...')
-#     year = int(shooting_data[i][0])
-#     month = int(shooting_data[i][1])
-#     day = int(shooting_data[i][2])
-#     split = shooting_data[i][3].split()
-#     if len(split)>1:
-#         location = split[0] + '_' + split[1]
-#     else:
-#         location = shooting_data[i][3]
-#     collection_pipeline(year, month, day, location)
+shooting_data = af.import_csv('generate-sample\intial-sample-w-info.csv')
 
-collection_pipeline(2012, 7, 20, 'Aurora')
+for i in range(1,len(shooting_data)):
+    print(f'COLLECTING URLS FOR EVENT NO. {i}...')
+    year = int(shooting_data[i][0])
+    month = int(shooting_data[i][1])
+    day = int(shooting_data[i][2])
+    split = shooting_data[i][3].split()
+    if len(split)>1:
+        location = split[0] + '_' + split[1]
+    else:
+        location = shooting_data[i][3]
+    collection_pipeline(year, month, day, location)
+
+# For handling specific cases where there were errors:
+# collection_pipeline(2012, 7, 20, 'Aurora')

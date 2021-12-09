@@ -1,0 +1,11 @@
+location,number of descriptor words,most common descriptions
+Aurora,76,"[('innocent', 10), ('memorial', 7), ('identifiable', 6), ('individual', 6), ('victim', 3), ('dead', 2), ('six', 2), ('numerous', 2), ('individuals', 2), ('shooting', 2)]"
+Boulder,312,"[('multiple', 44), ('female', 33), ('10', 11), ('important', 10), ('humanize', 8), ('additional', 7), ('white', 7), ('gunshot', 7), ('sorry', 6), ('dead', 6)]"
+Broward_County,32,"[('memorial', 9), ('makeshift', 3), ('dead', 2), ('vulnerable', 1), ('public', 1), ('prosecutor', 1), ('deep', 1), ('empathy', 1), ('common', 1), ('mental', 1)]"
+Indianapolis,129,"[('memorial', 19), ('multiple', 9), ('makeshift', 8), ('female', 4), ('deep', 4), ('condolences', 4), ('numerous', 4), ('potential', 3), ('fatal', 3), ('likely', 3)]"
+Killeen,2,"[('memorial', 1), ('service', 1)]"
+Pittsburgh,244,"[('sandy', 24), ('independent', 18), ('claims', 18), ('memorial', 12), ('elderly', 11), ('solemn', 8), ('respect', 8), ('multiple', 5), ('vigil', 5), ('11', 5)]"
+Roseburg,54,"[('innocent', 6), ('likely', 5), ('memorial', 4), ('female', 3), ('official', 3), ('multiple', 2), ('sandy', 2), ('hook', 2), ('services', 2), ('potential', 1)]"
+Santa_Monica,5,"[('innocent', 1), ('final', 1), ('three', 1), ('15-year-old', 1), ('female', 1)]"
+San_Bernardino,164,"[('multiple', 14), ('memorial', 11), ('potential', 7), ('innocent', 5), ('personal', 5), ('complex', 4), ('prayers', 4), ('center', 4), ('warm', 4), ('national', 3)]"
+Seal_Beach,20,"[('memorial', 4), ('national', 3), ('center', 2), ('right', 2), ('dead', 1), ('ninth', 1), ('critical', 1), ('condition', 1), ('fast', 1), ('crime', 1)]"

@@ -1,0 +1,2 @@
+positives,negatives,fps,fns,tps,tns,precision,recall
+573,1255,0,1,7,12,1.0,0.875

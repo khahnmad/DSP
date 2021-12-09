@@ -1,19 +1,19 @@
-year,month,day,location ,shooter 
-2015,12,2,San Bernardino ,Rizwaan Farook
-2012,7,20,Aurora,James Holmes
-2009,11,5,Killeen,Nidal Hasan 
-2017,11,5,Sutherland Springs,Devin Patrick Kelley
-2011,1,8,Tucson ,Jared Loughner
-2021,4,15,Indianapolis,Brandon Scott Hole 
-2005,3,21,Red Lake,Jeffrey Weise
-2021,3,22,Boulder,Ahmad Al Alissa
-2018,10,27,Pittsburgh,Robert Bowers
-2017,1,6,Broward County,Esteban Santiago 
-2011,9,10,Breathitt County,Stanley Neace
-2006,1,30,Goleta,Jennifer San Marco 
-2007,12,5,Omaha,Robert Hawkins
-2018,11,7,Thousand Oaks,Ian David Long 
-2011,10,12,Seal Beach,Scottt Dekraai 
-2010,6,6,Hialeah,Gerardo Regalado 
-2015,10,1,Roseburg,Chris Harper-Mercer
-2013,6,7,Santa Monica,John Zawahri 
+year,month,day,location ,shooter ,Case #,# killed,known to shooter
+2021,3,22,Boulder,Ahmad Al Alissa,177,10,0
+2021,4,15,Indianapolis,Brandon Scott Hole ,179,8,1
+2015,10,1,Roseburg,Chris Harper-Mercer,140,9,1
+2017,11,5,Sutherland Springs,Devin Patrick Kelley,155,25,0
+2017,1,6,Broward County,Esteban Santiago ,150,5,0
+2010,6,6,Hialeah,Gerardo Regalado ,116,4,2
+2018,11,7,Thousand Oaks,Ian David Long ,165,12,0
+2012,7,20,Aurora,James Holmes,126,12,0
+2011,1,8,Tucson ,Jared Loughner,120,6,0
+2005,3,21,Red Lake,Jeffrey Weise,95,9,2
+2006,1,30,Goleta,Jennifer San Marco ,97,7,1
+2013,6,7,Santa Monica,John Zawahri ,132,5,2
+2009,11,5,Killeen,Nidal Hasan ,113,13,1
+2015,12,2,San Bernardino,Rizwaan Farook,"142, 143",14,1
+2018,10,27,Pittsburgh,Robert Bowers,164,11,0
+2007,12,5,Omaha,Robert Hawkins,103,8,0
+2011,10,12,Seal Beach,Scottt Dekraai ,123,8,2
+2011,9,10,Breathitt County,Stanley Neace,119,5,2

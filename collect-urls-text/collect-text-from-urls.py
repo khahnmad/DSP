@@ -64,7 +64,7 @@ def extract_article_content(csv_file, event_name):
 
         for i in range(len(mediacloud_content)):
             for j in range(len(text)):
-                if text[j][0] == mediacloud_content[i][3]:
+                if text[j][0] == mediacloud_content[i][3]: # if the urls match, then append the text to the original list
                     mediacloud_content[i].append(text[j][1])
 
         # Export nested list of all mediacloud content + the text from the given url
@@ -80,7 +80,7 @@ def extract_article_content(csv_file, event_name):
 os.chdir('C:\\Users\\khahn\\Documents\\DSP\\DSP')
 all_files = [x for x in glob.glob('mediacloud-urls' + "/*.csv")]  # Get all files in the given folder
 print('check')
-for file in all_files[10:]: # start at 10 for Red_lake
+for file in all_files[1:]: # start at 10 for Red_lake
     regex = r"[A-Z].*(?=.c)"
     match = re.findall(regex, file)
     print(f'WORKING ON {match[0]}...')

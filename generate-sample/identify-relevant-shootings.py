@@ -1,5 +1,5 @@
 # Imports
-from DSP import All_Functions as af
+import All_Functions as af
 import re
 import random
 

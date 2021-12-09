@@ -11,6 +11,7 @@ import math
 
 
 def create_vocab(content): # for unclean content. could make an option for clean content
+    # input: content: list of lists in which the sublists are tokenized and preprocessed to whatever degree wanted
     all_text, vocab = [],[]
     for i in range(1,len(content)):
         for word in content[i][10]:
@@ -51,6 +52,10 @@ def calculate_idf(vocab, content):
     return idfs
 
 def calculate_tfidf(tf_matrix, idf_matrix):
+    # input: tf_matrix: same number of lists as the content, each sublist has the dimenions of the vocab
+    #        idf_matrix: same dimensions as the vocab
+    # output: tf-idf matrix: list of lists where the sublists contain the tf-idf score for each word in the original content
+    #                         and the number of lists corresponds to the number of documents
     matrix =[]
     for i in range(len(tf_matrix)):
         doc_weight = []
@@ -109,10 +114,10 @@ af.fix_field_errors()
 
 # ROUND 1
 # Gendrate tf-idf
-all_files = [x for x in glob.glob('article-text' + "/*.csv") if 'cleaned' in x and '0' not in x]  # Get all files in the given folder
-for file in all_files:
-    print(f"Working on {af.get_event_name(file)}...")
-    generate_first_tfidf(file)
+# all_files = [x for x in glob.glob('article-text' + "/*.csv") if 'cleaned' in x and '0' not in x]  # Get all files in the given folder
+# for file in all_files:
+#     print(f"Working on {af.get_event_name(file)}...")
+#     generate_first_tfidf(file)
 
 # Inspect tf-idf
 # all_files = [x for x in glob.glob('tf-idf-scores\\round-1' + "/*.csv")]  # Get all files in the given folder
